@@ -31,7 +31,7 @@ class Database extends Config
         'password'     => '',
         'database'     => 'schlatter',
         'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => 'mt',
+        'DBPrefix'     => 'mt_',
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',

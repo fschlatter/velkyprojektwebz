@@ -9,7 +9,7 @@
 </head>
 <body>
     <?= $this->include("layout/navbar.php");?>
-    <?= $this->section('content');?>
+    <?= $this->renderSection('content');?>
     <?= $this->include("layout/footer.php");?>
 </body>
 </html>
