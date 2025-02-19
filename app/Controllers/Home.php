@@ -8,6 +8,6 @@ class Home extends BaseController
     public function index(): string
     {
         $data['page_title'] = "Home";
-        return view('index', $this->data);
+        return view('index', $data);
     }
 }
