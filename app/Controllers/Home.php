@@ -56,4 +56,8 @@ class Home extends BaseController
         
         return view('komponenty', $this->data);
     }
+    public function komponenta($id):string{
+        $this->data['komponent'] = $this->komponenty->where('id', $id)->findAll();
+        return view('komponenta', $this->data);
+    }
 }
