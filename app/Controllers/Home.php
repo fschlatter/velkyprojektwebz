@@ -26,7 +26,7 @@ class Home extends BaseController
     }
     public function index(): string
     {
-        $this->data['page_title'] = "Home";
+        $this->data['page_title'] = 'Home';
         return view('index', $this->data);
     }
 
@@ -43,21 +43,23 @@ class Home extends BaseController
     public function komponenty($typ, $id):string
     {
         if($typ == 'vyrobce'){
-            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('vyrobce_id', $id)->findAll();
+            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->where('vyrobce_id', $id)->paginate(9);
             $this->data['page_title'] = $this->data['vyrobce'][$id-1]['vyrobce'];
         }
         else if ($typ == 'typkomponent'){
-            $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->where('typKomponent_id', $id)->findAll();
+            $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('typKomponent_id', $id)->paginate(9);
             $this->data['page_title'] = $this->data['typkomponent'][$id-1]['typKomponent'];
         }
         else{
-            throw new \Exception('Neplatný filtr komponent');
+            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->paginate(9);
+            $this->data['page_title'] = 'Všechny komponenty';
         }
-        
+        $this->data['pager'] = $this->komponenty->pager;
         return view('komponenty', $this->data);
     }
     public function komponenta($id):string{
-        $this->data['komponent'] = $this->komponenty->where('id', $id)->findAll();
+        $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner')->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('id', $id)->findAll()[0];
+        $this->data['page_title'] = $this->data['komponenty']['nazev'];
         return view('komponenta', $this->data);
     }
 }
