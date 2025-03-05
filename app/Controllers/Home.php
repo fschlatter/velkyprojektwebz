@@ -8,6 +8,8 @@ use App\CodeIgniter\HTTP\RequestInterface;
 use App\CodeIgniter\HTTP\ResponseInterface;
 use App\Psr\Log\LoggerInterface;
 
+use function PHPSTORM_META\type;
+
 class Home extends BaseController
 {
     var $typkomponent;
@@ -40,15 +42,15 @@ class Home extends BaseController
         $this->data['page_title'] = $this->data['vyrobce'][$id-1]['vyrobce'];
         return view('vyrobce', $this->data);
     }
-    public function komponenty($typ, $id):string
+    public function komponenty($id):string
     {
-        if($typ == 'vyrobce'){
+        if(is_numeric($id)){
             $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->where('vyrobce_id', $id)->paginate(9);
-            $this->data['page_title'] = $this->data['vyrobce'][$id-1]['vyrobce'];
+            $this->data['page_title'] = $this->data['typkomponent'][0]['typKomponent'];
         }
-        else if ($typ == 'typkomponent'){
-            $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('typKomponent_id', $id)->paginate(9);
-            $this->data['page_title'] = $this->data['typkomponent'][$id-1]['typKomponent'];
+        else if (!is_int($id)&&$id!='vse'){
+            $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('url', $id)->paginate(9);
+            $this->data['page_title'] = $this->typkomponent->where('url', $id)->findAll()[0]['typKomponent'];
         }
         else{
             $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->paginate(9);

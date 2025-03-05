@@ -7,7 +7,7 @@
         <a class="nav-link" href="<?=base_url("/")?>">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?=base_url("komponent/vsechny/0")?>">Všecky komponenty</a>
+        <a class="nav-link" href="<?=base_url("komponent/vse")?>">Všecky komponenty</a>
       </li>
     </ul>
   </div>
