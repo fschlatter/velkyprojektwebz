@@ -7,6 +7,7 @@ use App\Models\Komponent;
 use App\CodeIgniter\HTTP\RequestInterface;
 use App\CodeIgniter\HTTP\ResponseInterface;
 use App\Psr\Log\LoggerInterface;
+use Config\PagerConfig;
 
 use function PHPSTORM_META\type;
 
@@ -16,10 +17,14 @@ class Home extends BaseController
     var $vyrobce;
     var $komponenty;
     var $data = [];
+    var $config;
+    var $itemsPerPage;
 
     public function __construct()
     {
         // Preload any models, libraries, etc, here.
+        $this->config = new PagerConfig();
+        $itemsPerPage = $this->config->getItemPerPage();
         $this->typkomponent = new Typkomponent();
         $this->vyrobce = new Vyrobce();
         $this->komponenty = new Komponent();
@@ -45,15 +50,15 @@ class Home extends BaseController
     public function komponenty($id):string
     {
         if(is_numeric($id)){
-            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->where('vyrobce_id', $id)->paginate(9);
+            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->where('vyrobce_id', $id)->paginate($this->itemsPerPage);
             $this->data['page_title'] = $this->data['typkomponent'][0]['typKomponent'];
         }
-        else if (!is_int($id)&&$id!='vse'){
-            $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('url', $id)->paginate(9);
+        else if ($id!='vse'){
+            $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('url', $id)->paginate($this->itemsPerPage);
             $this->data['page_title'] = $this->typkomponent->where('url', $id)->findAll()[0]['typKomponent'];
         }
         else{
-            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->paginate(9);
+            $this->data['komponenty'] = $this->komponenty->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->paginate($this->itemsPerPage);
             $this->data['page_title'] = 'Všechny komponenty';
         }
         $this->data['pager'] = $this->komponenty->pager;

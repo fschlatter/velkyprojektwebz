@@ -1,7 +1,7 @@
 <?= $this->extend("layout/layout");?>
 <?= $this->section("content") ?>
 <div class="container">
-    <h1><?=$komponenty['nazev']?></h1>
+    <h1><?=$komponenty['nazev']?> <span class="fa-solid fa-house"></span></h1>
     <p>Typ komponenty: <span><?=$komponenty['typKomponent']?></span></p>
     <p>Výrobce: <span><?=$komponenty['vyrobce']?></span></p>
     <span><img src="<?= base_url("resources/komponenty/".$komponenty['pic']) ?>" alt="" srcset=""></span>
