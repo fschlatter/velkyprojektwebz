@@ -8,3 +8,4 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('komponent/(:any)','Home::komponenty/$1');
 $routes->get('komponenta/(:num)','Home::komponenta/$1');
+$routes->get('taby/(:any)','Home::taby/$1');

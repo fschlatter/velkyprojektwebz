@@ -9,6 +9,9 @@
       <li class="nav-item">
         <a class="nav-link" href="<?=base_url("komponent/vse")?>">Všecky komponenty</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?=base_url("taby/1")?>">Komponenty v tabech</a>
+      </li>
     </ul>
   </div>
 

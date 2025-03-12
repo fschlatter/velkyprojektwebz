@@ -24,7 +24,7 @@ class Home extends BaseController
     {
         // Preload any models, libraries, etc, here.
         $this->config = new PagerConfig();
-        $itemsPerPage = $this->config->getItemPerPage();
+        $this->itemsPerPage = $this->config->getItemPerPage();
         $this->typkomponent = new Typkomponent();
         $this->vyrobce = new Vyrobce();
         $this->komponenty = new Komponent();
@@ -68,5 +68,10 @@ class Home extends BaseController
         $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner')->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('id', $id)->findAll()[0];
         $this->data['page_title'] = $this->data['komponenty']['nazev'];
         return view('komponenta', $this->data);
+    }
+    public function taby($id):string{
+        $this->data['page_title'] = 'Komponenty v tabech';
+        $this->data['komponenty'] = $this->komponenty->join('typkomponent','komponent.typKomponent_id=typkomponent.idKomponent', 'inner' )->join('vyrobce','komponent.vyrobce_id=vyrobce.idVyrobce', 'inner' )->where('url', $id)->paginate($this->itemsPerPage);
+        return view('taby', $this->data);
     }
 }
