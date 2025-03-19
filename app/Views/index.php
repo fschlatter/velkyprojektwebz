@@ -10,6 +10,11 @@
             <?php endforeach?>
     </div>
 </div>
+
+<div class="container">
+    
+</div>
+
 <div class="container">
     <h1>Výrobci</h1>
     <div class="row justify-content-center">

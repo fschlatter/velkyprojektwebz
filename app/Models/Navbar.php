@@ -4,13 +4,13 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Komponent extends Model
+class Navbar extends Model
 {
-    protected $table            = 'komponent';
+    protected $table            = 'navbar';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [];
 
@@ -21,8 +21,8 @@ class Komponent extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = true;
-    protected $dateFormat    = 'int';
+    protected $useTimestamps = false;
+    protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
